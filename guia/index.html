@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kimi Code — Claude Code rodando em Kimi K3 via OpenRouter</title>
+<meta name="description" content="Skill do Claude Code que abre uma nova janela de terminal rodando o harness completo em Kimi K3 (Moonshot AI) via OpenRouter, por ~1/3 do custo, sem tocar na sessão atual.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0c10; --bg2:#14141b; --card:#16161e; --line:#272730;
+    --txt:#e9e9ee; --mut:#9a9aa6; --amb:#E2A23B; --amb2:#f0c070; --sky:#38bdf8; --pro:#cbd5e1;
+    color-scheme:dark;
+  }
+  body.light{
+    --bg:#f6f7f9; --bg2:#eceef2; --card:#ffffff; --line:#e1e3ea;
+    --txt:#1a1a22; --mut:#5b5b68; --amb:#b9791d; --amb2:#a16207; --sky:#0369a1; --pro:#b45309;
+    color-scheme:light;
+  }
+  body.light .hero .glow{opacity:.5}
+  body.light pre{background:#0e0e14;color:#d6d6e0}
+  body.light pre .c{color:#8a8a98}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Sora,sans-serif;line-height:1.15;margin:0}
+  a{color:var(--amb);text-decoration:none}
+  code,pre{font-family:"JetBrains Mono",monospace}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+  .mut{color:var(--mut)} .amb{color:var(--amb)}
+  .chip{display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amb);font-weight:600;font-family:Sora}
+  nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(12px);background:rgba(12,12,16,.78);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:22px;height:60px}
+  nav .brand{display:flex;align-items:center;gap:8px;font-family:Sora;font-weight:800;letter-spacing:-.02em;color:var(--amb)}
+  nav .brand .emoji{font-size:1.25rem}
+  nav .sep{color:var(--mut);opacity:.45}
+  nav .inema{color:var(--sky);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .inema:hover{filter:brightness(1.15)}
+  nav .pro{color:var(--pro);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .pro:hover{filter:brightness(1.15)}
+  nav .clubpro{display:inline-flex;align-items:center;gap:6px}
+  nav .links{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:.92rem}
+  nav .links a.sec{color:var(--mut)} nav .links a.sec:hover{color:var(--txt)}
+  .tgl{background:var(--bg2);border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem}
+  .tgl:hover{border-color:var(--amb)}
+  .btn{display:inline-block;background:var(--amb);color:#1a1206;font-weight:600;padding:.6em 1.05em;border-radius:10px;font-family:Sora}
+  .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+  @media(max-width:760px){nav .links a.sec{display:none}}
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero .glow{position:absolute;inset:-40% -20% auto auto;width:70%;height:600px;background:radial-gradient(closest-side,rgba(226,162,59,.22),transparent 70%);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:74px 22px}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.025em}
+  .hero p.lead{font-size:1.18rem;color:var(--mut);margin:1.1em 0 1.6em;max-width:34ch}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .hero figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px #000}
+  .hero figure img{width:100%;display:block}
+  @media(max-width:780px){.hero .wrap{grid-template-columns:1fr;padding:48px 22px}}
+  section{padding:62px 0;border-bottom:1px solid var(--line)}
+  section h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+  section .sub{color:var(--mut);margin:.6em 0 2em;max-width:62ch}
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:820px){.g3,.g4{grid-template-columns:1fr 1fr}}
+  @media(max-width:540px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .card h3{font-size:1.05rem;margin-bottom:.4em}
+  .card p{color:var(--mut);font-size:.92rem;margin:0}
+  .card pre{margin:.9em 0 0}
+  .num{display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;border-radius:8px;background:rgba(226,162,59,.14);color:var(--amb);font-family:Sora;font-weight:800;font-size:.9rem;margin-bottom:.7em}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .flow span{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:.45em .9em;font-size:.85rem;font-family:Sora;font-weight:600}
+  .flow .arr{color:var(--amb);border:none;background:none;padding:0 .1em}
+  pre{background:#0a0a0e;border:1px solid var(--line);border-radius:12px;padding:16px 18px;overflow:auto;font-size:.86rem;line-height:1.6;color:#d6d6e0}
+  pre .c{color:#6f6f7c} pre .k{color:var(--amb2)} pre .s{color:#9ece6a}
+  table.env{width:100%;border-collapse:collapse;margin-top:18px;font-size:.9rem}
+  table.env th,table.env td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.env th{font-family:Sora;color:var(--amb);font-size:.82rem;text-transform:uppercase;letter-spacing:.08em}
+  table.env td:first-child{font-family:"JetBrains Mono",monospace;white-space:nowrap}
+  table.env td:nth-child(3){color:var(--mut)}
+  .tblwrap{overflow-x:auto}
+  .step{display:grid;grid-template-columns:46px 1fr;gap:16px;margin-bottom:26px}
+  .step .b{width:46px;height:46px;border-radius:12px;background:var(--amb);color:#1a1206;font-family:Sora;font-weight:800;font-size:1.25rem;display:flex;align-items:center;justify-content:center}
+  .step h3{font-size:1.12rem;margin-bottom:.3em}
+  .step p{color:var(--mut);margin:.2em 0 .7em}
+  .phase{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .phase:last-child{border:none}
+  .phase .tag{flex:0 0 92px;font-family:Sora;font-weight:800;color:var(--amb)}
+  .phase .d strong{display:block;margin-bottom:.2em}
+  .phase .d span{color:var(--mut);font-size:.92rem}
+  footer{padding:46px 0;text-align:center;color:var(--mut);font-size:.9rem}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.3em .8em;font-size:.78rem;color:var(--mut);margin:0 4px}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="emoji">🌙</span> Kimi Code</a>
+  <span class="sep">|</span>
+  <span class="clubpro">
+    <a class="inema" href="https://inema.club" target="_blank" rel="noopener">INEMA.CLUB</a>
+    <span class="sep">-</span>
+    <a class="pro" href="https://inema.pro" target="_blank" rel="noopener">PRO</a>
+  </span>
+  <div class="links">
+    <a class="sec" href="#oque">O que é</a>
+    <a class="sec" href="#fluxo">Como funciona</a>
+    <a class="sec" href="#pre">Pré-requisitos</a>
+    <a class="sec" href="#guia">Guia de uso</a>
+    <a class="sec" href="#exemplos">Exemplos</a>
+    <a class="sec" href="#roadmap">Roadmap</a>
+    <button class="tgl" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
+    <a class="btn" href="https://github.com/inematds/kimicodecc" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div>
+      <span class="chip">Skill do Claude Code</span>
+      <h1>Uma skill. Um terminal. Um <span class="amb">terço do custo</span>.</h1>
+      <p class="lead">Diga “abre o kimi” e uma nova janela de terminal sobe com o harness completo do Claude Code rodando em Kimi K3, via OpenRouter. Sua sessão atual continua intacta.</p>
+      <div class="cta">
+        <a class="btn" href="#guia">Começar o guia</a>
+        <a class="btn ghost" href="https://github.com/inematds/kimicodecc" target="_blank" rel="noopener">Ver no GitHub</a>
+      </div>
+    </div>
+    <figure><img src="assets/hero.png" alt="Kimi Code — Claude Code rodando em Kimi K3 via OpenRouter"></figure>
+  </div>
+</header>
+
+<section id="oque"><div class="wrap">
+  <span class="chip">O que é</span>
+  <h2>O mesmo Claude Code, servido por outro modelo</h2>
+  <p class="sub">O Kimi Code é uma skill que injeta quatro variáveis de ambiente na frente do comando <code>claude</code> — e só isso. O harness não muda: tools, skills, edição de arquivo e bash funcionam exatamente igual, só que as chamadas de API vão para <code>moonshotai/kimi-k3</code> no OpenRouter em vez da Anthropic.</p>
+  <div class="grid g3">
+    <div class="card"><h3>🧰 Harness completo</h3><p>Tools, skills, edição de arquivos e bash funcionam sem nenhuma modificação — o Kimi K3 tem suporte pleno a tool-calling e 1M de contexto.</p></div>
+    <div class="card"><h3>🔒 Escopada à sessão</h3><p>Nunca escreve em <code>~/.claude/settings.json</code>. Os overrides vivem só dentro da janela nova. Fechou a janela, voltou tudo ao normal em todo lugar.</p></div>
+    <div class="card"><h3>💸 ~1/3 do custo</h3><p>Em builds reais sai por cerca de um terço do preço do modelo de fronteira. O trade-off é velocidade: 2–3× mais lento em trabalho pesado.</p></div>
+  </div>
+</div></section>
+
+<section id="fluxo"><div class="wrap">
+  <span class="chip">Como funciona</span>
+  <h2>Quatro variáveis de ambiente e uma janela nova</h2>
+  <p class="sub">A skill busca sua chave da OpenRouter, confere se o slug do modelo está vivo, descobre qual emulador de terminal você tem e lança o <code>claude</code> lá dentro com o ambiente reescrito.</p>
+  <div class="flow">
+    <span>Buscar a chave</span><span class="arr">→</span>
+    <span>Verificar o slug</span><span class="arr">→</span>
+    <span>Detectar o terminal</span><span class="arr">→</span>
+    <span>Lançar com o env override</span><span class="arr">→</span>
+    <span>Conferir o banner</span>
+  </div>
+
+  <div class="tblwrap"><table class="env">
+    <thead><tr><th>Variável</th><th>Valor</th><th>Por quê</th></tr></thead>
+    <tbody>
+      <tr><td>ANTHROPIC_BASE_URL</td><td>https://openrouter.ai/api</td><td>Redireciona as chamadas do Claude Code pro OpenRouter</td></tr>
+      <tr><td>ANTHROPIC_AUTH_TOKEN</td><td>$OPENROUTER_API_KEY</td><td>Autentica no OpenRouter</td></tr>
+      <tr><td>ANTHROPIC_API_KEY</td><td>"" (vazio)</td><td>Impede que a chave real da Anthropic seja enviada</td></tr>
+      <tr><td>ANTHROPIC_MODEL</td><td>moonshotai/kimi-k3</td><td>Qual modelo serve a sessão</td></tr>
+      <tr><td>ANTHROPIC_SMALL_FAST_MODEL</td><td>moonshotai/kimi-k3</td><td>Evita que as chamadas de fundo caiam de volta na Anthropic</td></tr>
+    </tbody>
+  </table></div>
+
+  <p class="sub" style="margin-top:26px">A chave é referenciada como <code>$OPENROUTER_API_KEY</code> e só é resolvida depois do <code>source</code>, já <em>dentro</em> da janela nova — por isso o valor literal nunca entra na linha de comando nem no scrollback. Seguro pra gravação de tela.</p>
+</div></section>
+
+<section id="pre"><div class="wrap">
+  <span class="chip">Pré-requisitos</span>
+  <h2>O que precisa estar no lugar</h2>
+  <p class="sub">Três coisas: o Claude Code no PATH, uma chave da OpenRouter com crédito, e um emulador de terminal (no Linux).</p>
+  <div class="grid g3">
+    <div class="card"><h3>Claude Code no PATH</h3><p>A janela nova roda <code>claude</code> direto. Se não estiver no PATH, use o modo <code>here</code>.</p><pre><span class="k">command -v claude</span>  <span class="c"># deve imprimir um caminho</span></pre></div>
+    <div class="card"><h3>Chave da OpenRouter</h3><p>Crie em <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noopener">openrouter.ai/settings/keys</a> e coloque alguns dólares de crédito. A skill salva com <code>chmod 600</code>.</p><pre><span class="k">grep</span> <span class="s">"^OPENROUTER_API_KEY="</span> ~/.config/openrouter.env</pre></div>
+    <div class="card"><h3>Um emulador de terminal</h3><p>No Linux a skill detecta o primeiro disponível. Sem nenhum (headless, WSL sem X), ela cai no modo <code>here</code>.</p><pre><span class="c"># o primeiro que existir vence</span>
+<span class="k">for</span> t in gnome-terminal konsole xfce4-terminal kitty alacritty xterm; <span class="k">do</span>
+  command -v <span class="s">"$t"</span> &amp;&amp; <span class="k">break</span>
+<span class="k">done</span></pre></div>
+  </div>
+</div></section>
+
+<section id="guia"><div class="wrap">
+  <span class="chip">Guia de uso · passo a passo</span>
+  <h2>Do zero ao terminal Kimi em 2 minutos</h2>
+  <p class="sub">Instale a skill, reinicie o Claude Code e peça. Na primeira execução ela pede a chave uma única vez.</p>
+
+  <div class="step"><div class="b">1</div><div>
+    <h3>Clone o repo</h3>
+    <p>Traga o projeto pra sua máquina.</p>
+<pre><span class="k">git clone</span> <span class="s">https://github.com/inematds/kimicodecc.git</span>
+<span class="k">cd</span> kimicodecc</pre>
+  </div></div>
+
+  <div class="step"><div class="b">2</div><div>
+    <h3>Instale a skill</h3>
+    <p>Copie a pasta da skill pro diretório de skills do Claude Code.</p>
+<pre><span class="k">mkdir -p</span> ~/.claude/skills
+<span class="k">cp -r</span> skills/kimi-code ~/.claude/skills/  <span class="c"># vira ~/.claude/skills/kimi-code/SKILL.md</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">3</div><div>
+    <h3>Reinicie o Claude Code e chame</h3>
+    <p>Feche e abra o Claude Code pra ele carregar a skill nova. Depois é só pedir em português mesmo.</p>
+<pre><span class="c"># qualquer um destes aciona a skill:</span>
+<span class="s">"abre o kimi"</span>   <span class="s">"open kimmy"</span>   <span class="s">"kimi code"</span>   <span class="s">/kimi-code</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">4</div><div>
+    <h3>Cole a chave (só na primeira vez)</h3>
+    <p>A skill procura a chave em <code>~/.config/openrouter.env</code> e nos <code>.env</code> conhecidos. Se não achar, ela pede — e salva pra você nunca mais colar.</p>
+<pre><span class="k">mkdir -p</span> ~/.config
+<span class="k">printf</span> <span class="s">'OPENROUTER_API_KEY=%s\n'</span> <span class="s">'sk-or-v1-...'</span> &gt;&gt; ~/.config/openrouter.env
+<span class="k">chmod</span> 600 ~/.config/openrouter.env  <span class="c"># só você lê</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">5</div><div>
+    <h3>Confirme que pegou</h3>
+    <p>Na janela nova, o banner de boas-vindas do Claude Code mostra o slug do Kimi. É assim que você sabe que está rodando no modelo certo — e não na sua assinatura.</p>
+<pre><span class="s">moonshotai/kimi-k3</span> · API Usage Billing  <span class="c"># ← o que você quer ver</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">6</div><div>
+    <h3>Prefere rodar na mão? Modo <code>here</code></h3>
+    <p>Sem abrir janela nenhuma: a skill imprime o one-liner e você roda no shell que quiser.</p>
+<pre><span class="k">source</span> ~/.config/openrouter.env &amp;&amp; \
+  ANTHROPIC_BASE_URL=<span class="s">'https://openrouter.ai/api'</span> \
+  ANTHROPIC_AUTH_TOKEN=<span class="s">"$OPENROUTER_API_KEY"</span> \
+  ANTHROPIC_API_KEY=<span class="s">''</span> \
+  ANTHROPIC_MODEL=<span class="s">'moonshotai/kimi-k3'</span> \
+  ANTHROPIC_SMALL_FAST_MODEL=<span class="s">'moonshotai/kimi-k3'</span> \
+  <span class="k">claude</span></pre>
+  </div></div>
+</div></section>
+
+<section id="exemplos"><div class="wrap">
+  <span class="chip">Exemplos</span>
+  <h2>Os quatro modos</h2>
+  <p class="sub">Sem argumento ela lança a janela. Os outros três cobrem shell atual, troca de modelo e diagnóstico.</p>
+  <div class="grid g2">
+    <div class="card"><h3>🌙 Lançar (padrão)</h3><p>Abre a janela nova já rodando em Kimi K3. É o caso de 90% das vezes.</p><pre><span class="s">"abre o kimi"</span>
+<span class="c"># → nova janela, banner com moonshotai/kimi-k3</span></pre></div>
+    <div class="card"><h3>📋 Modo <code>here</code></h3><p>Não lança nada — imprime o one-liner pra você colar no shell atual.</p><pre><span class="s">/kimi-code here</span></pre></div>
+    <div class="card"><h3>🔀 Outro modelo</h3><p>O mesmo truque serve pra qualquer slug do OpenRouter, não só o Kimi.</p><pre><span class="s">/kimi-code model qwen/qwen3-coder</span></pre></div>
+    <div class="card"><h3>🩺 <code>status</code></h3><p>Mostra de onde veio a chave (4 últimos caracteres só), qual modelo seria usado e se o slug respondeu.</p><pre><span class="s">/kimi-code status</span></pre></div>
+  </div>
+
+  <h3 style="margin-top:34px;font-size:1.15rem">Quando usar Kimi, quando usar Claude</h3>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h3>⚡ Claude (assinatura)</h3><p>Sessões interativas, trabalho de alta alavancagem, qualquer coisa onde velocidade importa e você está esperando na frente da tela.</p></div>
+    <div class="card"><h3>🌙 Kimi K3 (esta skill)</h3><p>Builds grandes de design, trabalho em lote, qualquer coisa que dá pra deixar rodando. Benchmark real: um build completo de slide deck saiu por <strong>$10,70 no Kimi vs $35</strong> no modelo de fronteira, com qualidade equivalente.</p></div>
+  </div>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
+  <span class="chip">Roadmap</span>
+  <h2>Onde está e pra onde vai</h2>
+  <p class="sub">A skill já funciona ponta a ponta. O que vem depois é conveniência e alcance.</p>
+  <div class="phase"><div class="tag">Agora</div><div class="d"><strong>Skill funcional, Linux + macOS</strong><span>Detecção de emulador no Linux (gnome-terminal, konsole, xfce4-terminal, kitty, alacritty, xterm), AppleScript no macOS, os quatro modos (lançar / here / model / status) e a chave persistida com <code>chmod 600</code>.</span></div></div>
+  <div class="phase"><div class="tag">Próximo</div><div class="d"><strong>Fallback e diagnóstico melhores</strong><span>Mensagem clara quando o <code>claude</code> não está no PATH da janela nova, e verificação de crédito da conta OpenRouter antes de lançar.</span></div></div>
+  <div class="phase"><div class="tag">Depois</div><div class="d"><strong>Perfis de modelo</strong><span>Atalhos nomeados pra outros slugs do OpenRouter, pra alternar entre modelos baratos sem decorar slug.</span></div></div>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <div class="pill">Claude Code</div><div class="pill">OpenRouter</div><div class="pill">Kimi K3 · Moonshot AI</div><div class="pill">Bash</div>
+    <p style="margin-top:18px">Kimi Code · o harness completo por ~1/3 do custo ·
+      <a href="https://github.com/inematds/kimicodecc">inematds/kimicodecc</a> ·
+      <a href="https://inema.club">INEMA.CLUB</a></p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var KEY='kimicodecc-theme';
+    var b=document.body, t=document.getElementById('themeToggle');
+    if(localStorage.getItem(KEY)==='light'){ b.classList.add('light'); t.textContent='☀️'; }
+    t.addEventListener('click',function(){
+      var light=b.classList.toggle('light');
+      t.textContent=light?'☀️':'🌙';
+      localStorage.setItem(KEY, light?'light':'dark');
+    });
+  })();
+</script>
+</body>
+</html>
