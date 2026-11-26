@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kimi Code — Claude Code rodando em Kimi K3 via OpenRouter</title>
-<meta name="description" content="Skill do Claude Code que abre uma nova janela de terminal rodando o harness completo em Kimi K3 (Moonshot AI) via OpenRouter, por ~1/3 do custo, sem tocar na sessão atual.">
+<meta name="description" content="Skill do Claude Code que abre uma nova janela de terminal rodando o harness completo em Kimi K3 (Moonshot AI) via OpenRouter, por ~1/3 do custo, sem tocar na sessêo atual.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -121,7 +121,7 @@
     <div>
       <span class="chip">Skill do Claude Code</span>
       <h1>Uma skill. Um terminal. Um <span class="amb">terço do custo</span>.</h1>
-      <p class="lead">Diga “abre o kimi” e uma nova janela de terminal sobe com o harness completo do Claude Code rodando em Kimi K3, via OpenRouter. Sua sessão atual continua intacta.</p>
+      <p class="lead">Diga “abre o kimi” e uma nova janela de terminal sobe com o harness completo do Claude Code rodando em Kimi K3, via OpenRouter. Sua sessêo atual continua intacta.</p>
       <div class="cta">
         <a class="btn" href="#guia">Começar o guia</a>
         <a class="btn ghost" href="https://github.com/inematds/kimicodecc" target="_blank" rel="noopener">Ver no GitHub</a>
@@ -134,10 +134,10 @@
 <section id="oque"><div class="wrap">
   <span class="chip">O que é</span>
   <h2>O mesmo Claude Code, servido por outro modelo</h2>
-  <p class="sub">O Kimi Code é uma skill que injeta quatro variáveis de ambiente na frente do comando <code>claude</code> — e só isso. O harness não muda: tools, skills, edição de arquivo e bash funcionam exatamente igual, só que as chamadas de API vão para <code>moonshotai/kimi-k3</code> no OpenRouter em vez da Anthropic.</p>
+  <p class="sub">O Kimi Code é uma skill que injeta quatro variáveis de ambiente na frente do comando <code>claude</code> — e só isso. O harness nêo muda: tools, skills, ediçêo de arquivo e bash funcionam exatamente igual, só que as chamadas de API vêo para <code>moonshotai/kimi-k3</code> no OpenRouter em vez da Anthropic.</p>
   <div class="grid g3">
-    <div class="card"><h3>🧰 Harness completo</h3><p>Tools, skills, edição de arquivos e bash funcionam sem nenhuma modificação — o Kimi K3 tem suporte pleno a tool-calling e 1M de contexto.</p></div>
-    <div class="card"><h3>🔒 Escopada à sessão</h3><p>Nunca escreve em <code>~/.claude/settings.json</code>. Os overrides vivem só dentro da janela nova. Fechou a janela, voltou tudo ao normal em todo lugar.</p></div>
+    <div class="card"><h3>🧰 Harness completo</h3><p>Tools, skills, ediçêo de arquivos e bash funcionam sem nenhuma modificaçêo — o Kimi K3 tem suporte pleno a tool-calling e 1M de contexto.</p></div>
+    <div class="card"><h3>🔒 Escopada à sessêo</h3><p>Nunca escreve em <code>~/.claude/settings.json</code>. Os overrides vivem só dentro da janela nova. Fechou a janela, voltou tudo ao normal em todo lugar.</p></div>
     <div class="card"><h3>💸 ~1/3 do custo</h3><p>Em builds reais sai por cerca de um terço do preço do modelo de fronteira. O trade-off é velocidade: 2–3× mais lento em trabalho pesado.</p></div>
   </div>
 </div></section>
@@ -160,12 +160,12 @@
       <tr><td>ANTHROPIC_BASE_URL</td><td>https://openrouter.ai/api</td><td>Redireciona as chamadas do Claude Code pro OpenRouter</td></tr>
       <tr><td>ANTHROPIC_AUTH_TOKEN</td><td>$OPENROUTER_API_KEY</td><td>Autentica no OpenRouter</td></tr>
       <tr><td>ANTHROPIC_API_KEY</td><td>"" (vazio)</td><td>Impede que a chave real da Anthropic seja enviada</td></tr>
-      <tr><td>ANTHROPIC_MODEL</td><td>moonshotai/kimi-k3</td><td>Qual modelo serve a sessão</td></tr>
+      <tr><td>ANTHROPIC_MODEL</td><td>moonshotai/kimi-k3</td><td>Qual modelo serve a sessêo</td></tr>
       <tr><td>ANTHROPIC_SMALL_FAST_MODEL</td><td>moonshotai/kimi-k3</td><td>Evita que as chamadas de fundo caiam de volta na Anthropic</td></tr>
     </tbody>
   </table></div>
 
-  <p class="sub" style="margin-top:26px">A chave é referenciada como <code>$OPENROUTER_API_KEY</code> e só é resolvida depois do <code>source</code>, já <em>dentro</em> da janela nova — por isso o valor literal nunca entra na linha de comando nem no scrollback. Seguro pra gravação de tela.</p>
+  <p class="sub" style="margin-top:26px">A chave é referenciada como <code>$OPENROUTER_API_KEY</code> e só é resolvida depois do <code>source</code>, já <em>dentro</em> da janela nova — por isso o valor literal nunca entra na linha de comando nem no scrollback. Seguro pra gravaçêo de tela.</p>
 </div></section>
 
 <section id="pre"><div class="wrap">
@@ -173,7 +173,7 @@
   <h2>O que precisa estar no lugar</h2>
   <p class="sub">Três coisas: o Claude Code no PATH, uma chave da OpenRouter com crédito, e um emulador de terminal (no Linux).</p>
   <div class="grid g3">
-    <div class="card"><h3>Claude Code no PATH</h3><p>A janela nova roda <code>claude</code> direto. Se não estiver no PATH, use o modo <code>here</code>.</p><pre><span class="k">command -v claude</span>  <span class="c"># deve imprimir um caminho</span></pre></div>
+    <div class="card"><h3>Claude Code no PATH</h3><p>A janela nova roda <code>claude</code> direto. Se nêo estiver no PATH, use o modo <code>here</code>.</p><pre><span class="k">command -v claude</span>  <span class="c"># deve imprimir um caminho</span></pre></div>
     <div class="card"><h3>Chave da OpenRouter</h3><p>Crie em <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noopener">openrouter.ai/settings/keys</a> e coloque alguns dólares de crédito. A skill salva com <code>chmod 600</code>.</p><pre><span class="k">grep</span> <span class="s">"^OPENROUTER_API_KEY="</span> ~/.config/openrouter.env</pre></div>
     <div class="card"><h3>Um emulador de terminal</h3><p>No Linux a skill detecta o primeiro disponível. Sem nenhum (headless, WSL sem X), ela cai no modo <code>here</code>.</p><pre><span class="c"># o primeiro que existir vence</span>
 <span class="k">for</span> t in gnome-terminal konsole xfce4-terminal kitty alacritty xterm; <span class="k">do</span>
@@ -185,7 +185,7 @@
 <section id="guia"><div class="wrap">
   <span class="chip">Guia de uso · passo a passo</span>
   <h2>Do zero ao terminal Kimi em 2 minutos</h2>
-  <p class="sub">Instale a skill, reinicie o Claude Code e peça. Na primeira execução ela pede a chave uma única vez.</p>
+  <p class="sub">Instale a skill, reinicie o Claude Code e peça. Na primeira execuçêo ela pede a chave uma única vez.</p>
 
   <div class="step"><div class="b">1</div><div>
     <h3>Clone o repo</h3>
@@ -210,7 +210,7 @@
 
   <div class="step"><div class="b">4</div><div>
     <h3>Cole a chave (só na primeira vez)</h3>
-    <p>A skill procura a chave em <code>~/.config/openrouter.env</code> e nos <code>.env</code> conhecidos. Se não achar, ela pede — e salva pra você nunca mais colar.</p>
+    <p>A skill procura a chave em <code>~/.config/openrouter.env</code> e nos <code>.env</code> conhecidos. Se nêo achar, ela pede — e salva pra você nunca mais colar.</p>
 <pre><span class="k">mkdir -p</span> ~/.config
 <span class="k">printf</span> <span class="s">'OPENROUTER_API_KEY=%s\n'</span> <span class="s">'sk-or-v1-...'</span> &gt;&gt; ~/.config/openrouter.env
 <span class="k">chmod</span> 600 ~/.config/openrouter.env  <span class="c"># só você lê</span></pre>
@@ -218,12 +218,12 @@
 
   <div class="step"><div class="b">5</div><div>
     <h3>Confirme que pegou</h3>
-    <p>Na janela nova, o banner de boas-vindas do Claude Code mostra o slug do Kimi. É assim que você sabe que está rodando no modelo certo — e não na sua assinatura.</p>
+    <p>Na janela nova, o banner de boas-vindas do Claude Code mostra o slug do Kimi. É assim que você sabe que está rodando no modelo certo — e nêo na sua assinatura.</p>
 <pre><span class="s">moonshotai/kimi-k3</span> · API Usage Billing  <span class="c"># ← o que você quer ver</span></pre>
   </div></div>
 
   <div class="step"><div class="b">6</div><div>
-    <h3>Prefere rodar na mão? Modo <code>here</code></h3>
+    <h3>Prefere rodar na mêo? Modo <code>here</code></h3>
     <p>Sem abrir janela nenhuma: a skill imprime o one-liner e você roda no shell que quiser.</p>
 <pre><span class="k">source</span> ~/.config/openrouter.env &amp;&amp; \
   ANTHROPIC_BASE_URL=<span class="s">'https://openrouter.ai/api'</span> \
@@ -240,10 +240,10 @@
   <h2>Os quatro modos</h2>
   <p class="sub">Sem argumento ela lança a janela. Os outros três cobrem shell atual, troca de modelo e diagnóstico.</p>
   <div class="grid g2">
-    <div class="card"><h3>🌙 Lançar (padrão)</h3><p>Abre a janela nova já rodando em Kimi K3. É o caso de 90% das vezes.</p><pre><span class="s">"abre o kimi"</span>
+    <div class="card"><h3>🌙 Lançar (padrêo)</h3><p>Abre a janela nova já rodando em Kimi K3. É o caso de 90% das vezes.</p><pre><span class="s">"abre o kimi"</span>
 <span class="c"># → nova janela, banner com moonshotai/kimi-k3</span></pre></div>
-    <div class="card"><h3>📋 Modo <code>here</code></h3><p>Não lança nada — imprime o one-liner pra você colar no shell atual.</p><pre><span class="s">/kimi-code here</span></pre></div>
-    <div class="card"><h3>🔀 Outro modelo</h3><p>O mesmo truque serve pra qualquer slug do OpenRouter, não só o Kimi.</p><pre><span class="s">/kimi-code model qwen/qwen3-coder</span></pre></div>
+    <div class="card"><h3>📋 Modo <code>here</code></h3><p>Nêo lança nada — imprime o one-liner pra você colar no shell atual.</p><pre><span class="s">/kimi-code here</span></pre></div>
+    <div class="card"><h3>🔀 Outro modelo</h3><p>O mesmo truque serve pra qualquer slug do OpenRouter, nêo só o Kimi.</p><pre><span class="s">/kimi-code model qwen/qwen3-coder</span></pre></div>
     <div class="card"><h3>🩺 <code>status</code></h3><p>Mostra de onde veio a chave (4 últimos caracteres só), qual modelo seria usado e se o slug respondeu.</p><pre><span class="s">/kimi-code status</span></pre></div>
   </div>
 
@@ -258,8 +258,8 @@
   <span class="chip">Roadmap</span>
   <h2>Onde está e pra onde vai</h2>
   <p class="sub">A skill já funciona ponta a ponta. O que vem depois é conveniência e alcance.</p>
-  <div class="phase"><div class="tag">Agora</div><div class="d"><strong>Skill funcional, Linux + macOS</strong><span>Detecção de emulador no Linux (gnome-terminal, konsole, xfce4-terminal, kitty, alacritty, xterm), AppleScript no macOS, os quatro modos (lançar / here / model / status) e a chave persistida com <code>chmod 600</code>.</span></div></div>
-  <div class="phase"><div class="tag">Próximo</div><div class="d"><strong>Fallback e diagnóstico melhores</strong><span>Mensagem clara quando o <code>claude</code> não está no PATH da janela nova, e verificação de crédito da conta OpenRouter antes de lançar.</span></div></div>
+  <div class="phase"><div class="tag">Agora</div><div class="d"><strong>Skill funcional, Linux + macOS</strong><span>Detecçêo de emulador no Linux (gnome-terminal, konsole, xfce4-terminal, kitty, alacritty, xterm), AppleScript no macOS, os quatro modos (lançar / here / model / status) e a chave persistida com <code>chmod 600</code>.</span></div></div>
+  <div class="phase"><div class="tag">Próximo</div><div class="d"><strong>Fallback e diagnóstico melhores</strong><span>Mensagem clara quando o <code>claude</code> nêo está no PATH da janela nova, e verificaçêo de crédito da conta OpenRouter antes de lançar.</span></div></div>
   <div class="phase"><div class="tag">Depois</div><div class="d"><strong>Perfis de modelo</strong><span>Atalhos nomeados pra outros slugs do OpenRouter, pra alternar entre modelos baratos sem decorar slug.</span></div></div>
 </div></section>
 
